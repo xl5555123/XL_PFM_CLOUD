@@ -47,5 +47,7 @@ public abstract class BaseItem {
         updated = new Date();
     }
 
+    public abstract String type();
+
 
 }

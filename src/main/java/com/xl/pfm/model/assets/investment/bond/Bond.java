@@ -1,18 +1,22 @@
-package com.xl.pfm.model.account.investment;
+package com.xl.pfm.model.assets.investment.bond;
 
-import com.xl.pfm.model.money.Money;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
+import com.xl.pfm.model.Money;
+import com.xl.pfm.model.assets.investment.Investment;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Date;
 
 /**
- * Created by XingLiang on 2016/1/12.
+ * Created by XingLiang on 2016/1/19.
  */
 @Entity
-public class Bond extends AbstractInvestment {
+public class Bond extends Investment {
+
+    @Override
+    public String type() {
+        return "bond";
+    }
 
     @Column(nullable = false)
     private Date startTime;
@@ -23,21 +27,13 @@ public class Bond extends AbstractInvestment {
     @Column(nullable = false)
     private Double ratePerYear;//百分制
 
-
-    public Bond(Money money, Date startTime, Date expiredTime, Double rate) {
+    public Bond(Money money, Double howMuch, Date startTime, Date expiredTime, Double rate) {
         super();
-        this.tradeMoney = money;
+        setCost(howMuch);
+        setBasedMoney(money);
         this.startTime = startTime;
         this.expiredTime = expiredTime;
         this.ratePerYear = rate;
-    }
-
-    @Override
-    protected void updateMarketValueAndCost() {
-        int days = Days.daysBetween(new DateTime(startTime).withTimeAtStartOfDay(), new DateTime(new Date()).withTimeAtStartOfDay()).getDays();
-
-        Double interest = (double) days / 365 * ratePerYear * cost;
-        setMarketValue(cost + interest);
     }
 
     public Date getStartTime() {
@@ -46,7 +42,7 @@ public class Bond extends AbstractInvestment {
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
-        updateMarketValueAndCost();
+        update();
     }
 
     public Date getExpiredTime() {
@@ -55,7 +51,7 @@ public class Bond extends AbstractInvestment {
 
     public void setExpiredTime(Date expiredTime) {
         this.expiredTime = expiredTime;
-        updateMarketValueAndCost();
+        update();
     }
 
     public Double getRatePerYear() {
@@ -64,6 +60,11 @@ public class Bond extends AbstractInvestment {
 
     public void setRatePerYear(Double ratePerYear) {
         this.ratePerYear = ratePerYear;
-        updateMarketValueAndCost();
+        update();
+    }
+
+    @Override
+    public String displayName() {
+        return "债券";
     }
 }

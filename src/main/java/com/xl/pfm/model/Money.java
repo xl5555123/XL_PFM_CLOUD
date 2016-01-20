@@ -1,6 +1,7 @@
-package com.xl.pfm.model.money;
+package com.xl.pfm.model;
 
-import com.xl.pfm.model.BaseItem;
+
+import com.xl.pfm.model.BaseDisplayItem;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.Entity;
  * 货币对象
  */
 @Entity
-public class Money extends BaseItem {
+public class Money extends BaseDisplayItem {
 
     /**
      * 货币的唯一标识
@@ -22,6 +23,9 @@ public class Money extends BaseItem {
      */
     @Column(nullable = false)
     private Double currentValue;
+
+    @Column(nullable = false)
+    private String displayName;
 
     public Money() {
         super();
@@ -49,4 +53,18 @@ public class Money extends BaseItem {
         this.currentValue = currentValue;
     }
 
+    @Override
+    public String type() {
+        return "money";
+
+    }
+
+    @Override
+    public String displayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 }

@@ -1,7 +1,7 @@
 package com.xl.pfm.model.account.investment;
 
-import com.xl.pfm.model.BaseItem;
-import com.xl.pfm.model.money.Money;
+import com.xl.pfm.model.account.Account;
+import com.xl.pfm.model.Money;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
  * 投资实体的抽象类
  */
 @MappedSuperclass
-public abstract class AbstractInvestment extends BaseItem {
+public abstract class AbstractInvestment extends Account {
 
     @OneToOne(cascade = CascadeType.REFRESH)
     protected Money tradeMoney;

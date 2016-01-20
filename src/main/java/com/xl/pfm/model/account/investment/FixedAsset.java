@@ -11,4 +11,14 @@ public class FixedAsset extends AbstractInvestment {
     protected void updateMarketValueAndCost() {
 
     }
+
+    @Override
+    public String type() {
+        return "fixed-asset";
+    }
+
+    @Override
+    public String displayName() {
+        return "fixed-asset";
+    }
 }

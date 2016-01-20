@@ -1,7 +1,7 @@
 package com.xl.pfm.model.account.loan;
 
-import com.xl.pfm.model.BaseItem;
-import com.xl.pfm.model.money.Money;
+import com.xl.pfm.model.account.Account;
+import com.xl.pfm.model.Money;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ import java.util.Date;
  * Created by XingLiang on 2016/1/12.
  */
 @Entity
-public class Loan extends BaseItem{
+public class Loan extends Account {
 
     @OneToOne(cascade = CascadeType.REFRESH)
     private Money money;
@@ -92,4 +92,13 @@ public class Loan extends BaseItem{
     @Column(nullable = false)
     private Date end;
 
+    @Override
+    public String type() {
+        return "loan";
+    }
+
+    @Override
+    public String displayName() {
+        return "贷款";
+    }
 }

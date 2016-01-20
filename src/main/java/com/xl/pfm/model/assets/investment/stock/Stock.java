@@ -1,6 +1,7 @@
-package com.xl.pfm.model.account.investment;
+package com.xl.pfm.model.assets.investment.stock;
 
-import com.xl.pfm.model.money.Money;
+import com.xl.pfm.model.Money;
+import com.xl.pfm.model.assets.investment.Investment;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.Entity;
  * Created by XingLiang on 2016/1/12.
  */
 @Entity
-public class Stock extends AbstractInvestment {
+public class Stock extends Investment {
 
     @Column(nullable = false)
     private Integer share;
@@ -20,24 +21,40 @@ public class Stock extends AbstractInvestment {
     @Column(nullable = false)
     private Double costPerShare;
 
+    @Column(nullable = false)
+    private String stockId;
+
+    @Column(nullable = false)
+    private String stockName;
+
+    public String getStockName() {
+        return stockName;
+    }
+
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
+    }
+
+    public String getStockId() {
+        return stockId;
+    }
+
+    public void setStockId(String stockId) {
+        this.stockId = stockId;
+    }
+
     public Stock() {
         super();
     }
 
     public Stock(Money money, Integer share, Double costPerShare) {
         super();
-        this.tradeMoney = money;
+        setBasedMoney(money);
         this.share = share;
         this.costPerShare = costPerShare;
         this.prizePerShare = costPerShare;
-        updateMarketValueAndCost();
     }
 
-    @Override
-    protected void updateMarketValueAndCost() {
-        setMarketValue(this.prizePerShare * this.share);
-        setCost(this.costPerShare * this.share);
-    }
 
     public Integer getShare() {
         return share;
@@ -45,8 +62,6 @@ public class Stock extends AbstractInvestment {
 
     public void setShare(Integer share) {
         this.share = share;
-        updateMarketValueAndCost();
-        update();
     }
 
     public Double getPrizePerShare() {
@@ -55,8 +70,6 @@ public class Stock extends AbstractInvestment {
 
     public void setPrizePerShare(Double prizePerShare) {
         this.prizePerShare = prizePerShare;
-        updateMarketValueAndCost();
-        update();
     }
 
     public Double getCostPerShare() {
@@ -65,8 +78,16 @@ public class Stock extends AbstractInvestment {
 
     public void setCostPerShare(Double costPerShare) {
         this.costPerShare = costPerShare;
-        updateMarketValueAndCost();
         update();
     }
 
+    @Override
+    public String type() {
+        return "stock";
+    }
+
+    @Override
+    public String displayName() {
+        return String.format("股票%s", stockName);
+    }
 }
